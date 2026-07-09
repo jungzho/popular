@@ -1,63 +1,93 @@
-<div id="popular-widget">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인기 게시물</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; }
+        .widget-container { max-width: 400px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h3 { margin-top: 0; color: #333; text-align: center; }
+        .tabs { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 2px solid #eee; }
+        .tabs button { flex: 1; background: none; border: none; padding: 10px; cursor: pointer; font-weight: bold; color: #888; }
+        .tabs button.active { color: #007bff; border-bottom: 2px solid #007bff; margin-bottom: -2px; }
+        .post-list { list-style: none; padding: 0; margin: 0; }
+        .post-list li { padding: 10px 0; border-bottom: 1px solid #f1f1f1; display: flex; }
+        .post-list li:last-child { border-bottom: none; }
+        .rank { font-weight: bold; color: #007bff; width: 24px; flex-shrink: 0; }
+        .post-link { text-decoration: none; color: #333; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .post-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="widget-container">
     <h3>🔥 인기 게시물</h3>
     
-    <!-- 탭 버튼 (원하는 대로 스타일을 수정하세요) -->
-    <div style="margin-bottom: 10px;">
-        <button onclick="loadPopular('daily')">일간</button>
-        <button onclick="loadPopular('weekly')">주간</button>
-        <button onclick="loadPopular('monthly')">월간</button>
+    <div class="tabs">
+        <button id="tab-daily" onclick="loadPopular('daily')" class="active">일간</button>
+        <button id="tab-weekly" onclick="loadPopular('weekly')">주간</button>
+        <button id="tab-monthly" onclick="loadPopular('monthly')">월간</button>
     </div>
 
-    <!-- 리스트 출력 영역 -->
-    <div id="popular-content">데이터를 불러오는 중입니다...</div>
+    <ul id="popular-content" class="post-list">
+        <li style="color:#888; text-align:center;">데이터를 불러오는 중입니다...</li>
+    </ul>
 </div>
 
 <script>
-// JSON 데이터를 전역 변수로 보관하여 탭 전환 시 재요청 방지
-let cachedPopularData = null;
+// API 주소를 본 서버의 api_popular.php 경로로 반드시 변경하세요!
+const API_URL = 'https://본서버주소.com/api_popular.php';
+// 링크 클릭 시 이동할 본 서버의 기본 주소
+const SITE_URL = 'https://본서버주소.com'; 
+
+let cachedData = null;
 
 function renderList(posts) {
-    if (!posts || posts.length === 0) return "해당 기간의 인기글이 없습니다.";
+    if (!posts || posts.length === 0) return "<li style='justify-content:center;'>인기글이 없습니다.</li>";
     
-    let html = "<ul style='list-style:none; padding:0;'>";
-    posts.forEach((post, index) => {
-        const link = `/${post.document_srl}`; // 새창 열림 적용
-        html += `
-            <li style="margin-bottom: 8px;">
-                <strong>${index + 1}.</strong> 
-                <a href="${link}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #333;">
-                    ${post.title}
-                </a>
-            </li>
-        `;
+    return posts.map((post, index) => `
+        <li>
+            <span class="rank">${index + 1}</span>
+            <a href="${SITE_URL}/${post.document_srl}" class="post-link" target="_blank" rel="noopener noreferrer" title="${post.title}">
+                ${post.title}
+            </a>
+        </li>
+    `).join('');
+}
+
+function updateTabUI(activePeriod) {
+    ['daily', 'weekly', 'monthly'].forEach(period => {
+        document.getElementById(`tab-${period}`).classList.remove('active');
     });
-    html += "</ul>";
-    return html;
+    document.getElementById(`tab-${activePeriod}`).classList.add('active');
 }
 
 function loadPopular(period) {
     const container = document.getElementById('popular-content');
+    updateTabUI(period);
     
-    if (cachedPopularData) {
-        container.innerHTML = renderList(cachedPopularData[period]);
+    if (cachedData) {
+        container.innerHTML = renderList(cachedData[period]);
         return;
     }
 
-    // 캐시 방지를 위해 날짜 파라미터 추가
-    const cacheBuster = new Date().toISOString().split('T')[0];
-    
-    fetch(`/popular_posts.json?v=${cacheBuster}`)
+    fetch(API_URL)
         .then(response => response.json())
         .then(data => {
-            cachedPopularData = data;
+            if(data.error) throw new Error(data.error);
+            cachedData = data;
             container.innerHTML = renderList(data[period]);
         })
         .catch(error => {
-            console.error('Error:', error);
-            container.innerHTML = "데이터를 불러올 수 없습니다.";
+            console.error('Fetch error:', error);
+            container.innerHTML = `<li style='color:red;'>데이터 로드 실패</li>`;
         });
 }
 
-// 기본값으로 주간(weekly) 먼저 노출
-document.addEventListener("DOMContentLoaded", () => loadPopular('weekly'));
+// 로딩 시 일간(daily) 먼저 출력
+document.addEventListener("DOMContentLoaded", () => loadPopular('daily'));
 </script>
+
+</body>
+</html>
