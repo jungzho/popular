@@ -34,7 +34,6 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -43,46 +42,44 @@
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
             box-sizing: border-box;
         }
 
         .wrapper {
             width: 100%;
-            max-width: 420px;
+            max-width: 500px;
         }
 
         .dashboard-container {
             width: 100%;
             background: var(--surface-color);
             border: 1px solid var(--line-color);
-            border-radius: 12px;
+            border-radius: 5px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
+            padding: 15px 20px;
             border-bottom: 1px solid var(--line-color);
         }
 
         .header h2 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
             font-weight: 700;
             color: #fff;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
         }
 
         .update-time {
             font-size: 0.75rem;
             color: var(--text-muted);
-            font-weight: 500;
         }
 
         .tabs {
@@ -96,10 +93,10 @@
             background: none;
             border: none;
             border-right: 1px solid var(--line-color);
-            padding: 14px 0;
+            padding: 15px 0;
             color: var(--text-muted);
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
             outline: none;
@@ -131,7 +128,7 @@
         .post-list li {
             display: flex;
             align-items: center;
-            padding: 14px 20px;
+            padding: 15px 20px;
             border-bottom: 1px solid var(--line-color);
             transition: background 0.2s;
         }
@@ -144,16 +141,15 @@
             background: var(--surface-hover);
         }
 
-        .rank { 
-            font-family: 'Courier New', Courier, monospace; 
-            font-weight: bold; 
-            width: 28px; 
+        .rank {
+            font-weight: 700;
+            width: 20px; 
             flex-shrink: 0; 
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             text-align: center;
             letter-spacing: -1px;
-            margin-right: 12px;
+            margin-right: 5px;
         }
 
         .rank-top { 
@@ -167,7 +163,7 @@
             align-items: center;
             flex: 1;
             min-width: 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: color 0.2s;
         }
 
@@ -175,15 +171,14 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .comment-count {
             flex-shrink: 0;
             color: var(--accent-color);
-            font-size: 0.8rem;
-            margin-left: 8px;
-            font-weight: bold;
+            font-size: 0.9rem;
+            margin-left: 5px;
         }
 
         .post-link:visited {
@@ -197,8 +192,7 @@
         .info-text {
             font-size: 0.75rem;
             color: #555;
-            margin-top: 12px;
-            padding-left: 4px;
+            margin-top: 15px;
         }
 
         .status-msg {
