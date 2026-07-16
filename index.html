@@ -22,16 +22,21 @@
             color: var(--text-color);
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
         }
 
-        .dashboard-container {
+        .wrapper {
             width: 100%;
             max-width: 420px;
+        }
+
+        .dashboard-container {
+            width: 100%;
             background: var(--surface-color);
             border: 1px solid var(--line-color);
             border-radius: 12px;
@@ -172,6 +177,13 @@
             color: #fff;
         }
 
+        .info-text {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 12px;
+            padding-left: 4px;
+        }
+
         .status-msg {
             padding: 40px 20px;
             text-align: center;
@@ -184,19 +196,22 @@
 </head>
 <body>
 
-    <div class="dashboard-container">
-        <div class="header">
-            <h2>🔥 인기 게시물</h2>
-            <span class="update-time" id="update-time">업데이트 대기중</span>
+    <div class="wrapper">
+        <div class="dashboard-container">
+            <div class="header">
+                <h2>🔥 인기 게시물</h2>
+                <span class="update-time" id="update-time">업데이트 대기중</span>
+            </div>
+            <div class="tabs">
+                <button class="tab-btn active" data-period="daily">일간</button>
+                <button class="tab-btn" data-period="weekly">주간</button>
+                <button class="tab-btn" data-period="monthly">월간</button>
+            </div>
+            <ul class="post-list" id="post-list">
+                <li class="status-msg">데이터를 불러오는 중입니다...</li>
+            </ul>
         </div>
-        <div class="tabs">
-            <button class="tab-btn active" data-period="daily">일간</button>
-            <button class="tab-btn" data-period="weekly">주간</button>
-            <button class="tab-btn" data-period="monthly">월간</button>
-        </div>
-        <ul class="post-list" id="post-list">
-            <li class="status-msg">데이터를 불러오는 중입니다...</li>
-        </ul>
+        <div class="info-text">[i] 해당 기간 내 작성한 게시물 누적 조회수</div>
     </div>
 
     <script>
@@ -210,21 +225,36 @@
                 { title: "실시간 반응 폭발한 사건 요약", comment_count: "38", document_srl: "1002", mid: "board" },
                 { title: "새로운 비제이 데뷔 방송 하이라이트", comment_count: "25", document_srl: "1003", mid: "video" },
                 { title: "갑자기 분위기 싸해진 합방", comment_count: "15", document_srl: "1004", mid: "board" },
-                { title: "인방갤 실검 1위 달성", comment_count: "9", document_srl: "1005", mid: "video" }
+                { title: "인방갤 실검 1위 달성", comment_count: "9", document_srl: "1005", mid: "video" },
+                { title: "퇴근길 소통 방송", comment_count: "8", document_srl: "1006", mid: "board" },
+                { title: "어제자 핫클립 모음", comment_count: "7", document_srl: "1007", mid: "video" },
+                { title: "이슈 총정리", comment_count: "5", document_srl: "1008", mid: "board" },
+                { title: "요즘 유행하는 챌린지", comment_count: "4", document_srl: "1009", mid: "video" },
+                { title: "시청자 참여 컨텐츠 결과", comment_count: "2", document_srl: "1010", mid: "board" }
             ],
             weekly: [
                 { title: "이번 주 최고의 직캠 모음.zip", comment_count: "156", document_srl: "2001", mid: "video" },
                 { title: "주간 인기투표 1위 달성 기념", comment_count: "120", document_srl: "2002", mid: "board" },
                 { title: "레전드 게스트 초대석 다시보기", comment_count: "89", document_srl: "2003", mid: "video" },
                 { title: "팬미팅 현장 스케치 및 비하인드", comment_count: "77", document_srl: "2004", mid: "board" },
-                { title: "방송사고 날 뻔한 아찔한 순간", comment_count: "65", document_srl: "2005", mid: "board" }
+                { title: "방송사고 날 뻔한 아찔한 순간", comment_count: "65", document_srl: "2005", mid: "board" },
+                { title: "주간 핫이슈 몰아보기", comment_count: "50", document_srl: "2006", mid: "video" },
+                { title: "신규 비제이 랭킹 진입", comment_count: "42", document_srl: "2007", mid: "board" },
+                { title: "이번 주 명장면 TOP 5", comment_count: "35", document_srl: "2008", mid: "video" },
+                { title: "합방 후기 및 썰 풀이", comment_count: "30", document_srl: "2009", mid: "board" },
+                { title: "다음 주 방송 일정 공지", comment_count: "21", document_srl: "2010", mid: "board" }
             ],
             monthly: [
                 { title: "올해의 대상 수상자 발표 및 소감", comment_count: "450", document_srl: "3001", mid: "board" },
                 { title: "역대급 리액션 모음 (조회수 100만)", comment_count: "320", document_srl: "3002", mid: "video" },
                 { title: "월간 베스트 비제이 랭킹", comment_count: "280", document_srl: "3003", mid: "board" },
                 { title: "구독자 100만 달성 기념 특별방송", comment_count: "210", document_srl: "3004", mid: "video" },
-                { title: "최고의 케미를 보여준 합방 1위", comment_count: "195", document_srl: "3005", mid: "video" }
+                { title: "최고의 케미를 보여준 합방 1위", comment_count: "195", document_srl: "3005", mid: "video" },
+                { title: "이달의 신인상 후보", comment_count: "150", document_srl: "3006", mid: "board" },
+                { title: "시청자가 뽑은 최고의 순간", comment_count: "120", document_srl: "3007", mid: "video" },
+                { title: "야외 방송 레전드 에피소드", comment_count: "105", document_srl: "3008", mid: "video" },
+                { title: "팬카페 정모 후기 모음", comment_count: "88", document_srl: "3009", mid: "board" },
+                { title: "월간 종합 결산 및 Q&A", comment_count: "70", document_srl: "3010", mid: "board" }
             ]
         };
 
@@ -262,8 +292,8 @@
             const listEl = document.getElementById('post-list');
             const posts = popularData[activePeriod] || [];
             
-            // Limit to 5 posts
-            listEl.innerHTML = renderList(posts.slice(0, 5));
+            // Limit to 10 posts
+            listEl.innerHTML = renderList(posts.slice(0, 10));
         }
 
         function initTabs() {
