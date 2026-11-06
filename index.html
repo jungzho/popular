@@ -7,21 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://popular.red52.kr/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="https://popular.red52.kr/favicon.ico">
-    <meta name="description" content="인기 BJ 야동과 최신 AV 야동 순위를 매일 새롭게 업데이트. 핫한 한국 야동을 HD 고화질로 무료 스트리밍 감상하세요.">
+    <meta name="description" content="인기 BJ 야동과 최신 AV 순위를 매일 업데이트. 한국 야동을 HD 고화질로 무료 스트리밍 및 다운로드 감상하세요.">
     <meta name="keywords" content="야동, BJ, AV, 한국, 고화질, 무료">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://popular.red52.kr/">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="인기 BJ 야동">
-    <meta property="og:description" content="인기 BJ 야동과 최신 AV 야동 순위를 매일 새롭게 업데이트. 핫한 한국 야동을 HD 고화질로 무료 스트리밍 감상하세요.">
+    <meta property="og:title" content="인기 BJ 야동 | Korean BJ Hot Video">
+    <meta property="og:description" content="인기 BJ 야동과 최신 AV 순위를 매일 업데이트. 한국 야동을 HD 고화질로 무료 스트리밍 및 다운로드 감상하세요.">
     <meta property="og:url" content="https://popular.red52.kr/">
     <meta property="og:site_name" content="빨간오이">
     <meta property="og:image" content="https://red52.kr/files/attach/site_image/site_image.1714131061.png"> 
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="인기 BJ 야동">
-    <meta name="twitter:description" content="인기 BJ 야동과 최신 AV 야동 순위를 매일 새롭게 업데이트. 핫한 한국 야동을 HD 고화질로 무료 스트리밍 감상하세요.">
+    <meta name="twitter:title" content="인기 BJ 야동 | Korean BJ Hot Video">
+    <meta name="twitter:description" content="인기 BJ 야동과 최신 AV 순위를 매일 업데이트. 한국 야동을 HD 고화질로 무료 스트리밍 및 다운로드 감상하세요.">
     <meta name="twitter:image" content="https://red52.kr/files/attach/site_image/site_image.1714131061.png">
 
     <meta name="naver-site-verification" content="fb3bff7a16fa7faa33c6bc6fd47a52d0b8e7e98f" />
@@ -30,8 +30,8 @@
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "인기 BJ 야동",
-      "description": "인기 BJ 야동과 최신 AV 야동 순위를 매일 새롭게 업데이트. 핫한 한국 야동을 HD 고화질로 무료 스트리밍 감상하세요.",
+      "name": "인기 BJ 야동 | Korean BJ Hot Video",
+      "description": "인기 BJ 야동과 최신 AV 순위를 매일 업데이트. 한국 야동을 HD 고화질로 무료 스트리밍 및 다운로드 감상하세요.",
       "url": "https://popular.red52.kr/",
       "publisher": {
         "@type": "Organization",
@@ -44,7 +44,7 @@
     }
     </script>
 
-    <title>인기 BJ 야동</title>
+    <title>인기 BJ 야동 | Korean BJ Hot Video</title>
     <style>
         :root {
             --line-color: #222;
@@ -90,7 +90,7 @@
             border-bottom: 1px solid var(--line-color);
         }
 
-        .wrapper .dashboard-container .header h2 {
+        .wrapper .dashboard-container .header h1 {
             margin: 0 !important;
             font-size: 0.9rem !important;
             font-weight: 900 !important;
@@ -237,7 +237,7 @@
     <main class="wrapper">
         <section class="dashboard-container">
             <header class="header">
-                <h2>🔥 인기 BJ 야동</h2>
+                <h1>🔥 인기 BJ 야동</h1>
                 <span class="update-time" id="update-time">업데이트 대기 중</span>
             </header>
             <nav class="tabs">
@@ -351,6 +351,37 @@
             }).join('');
         }
 
+        function injectItemListSchema(posts) {
+            if (!posts || posts.length === 0) return;
+
+            const itemListElement = posts.map((post, index) => {
+                const midPath = post.mid ? `/${post.mid}` : ''; 
+                return {
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "name": (post.title || '제목 없음').trim(),
+                    "url": `${SITE_URL}${midPath}/${post.document_srl}`
+                };
+            });
+
+            const schema = {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "name": "인기 BJ 야동 | Korean BJ Hot Video",
+                "description": "인기 BJ 야동과 최신 AV 순위를 매일 업데이트. 한국 야동을 HD 고화질로 무료 스트리밍 및 다운로드 감상하세요.",
+                "itemListElement": itemListElement
+            };
+
+            const existingSchema = document.getElementById('dynamic-itemlist-schema');
+            if (existingSchema) existingSchema.remove();
+
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.id = 'dynamic-itemlist-schema';
+            script.text = JSON.stringify(schema);
+            document.head.appendChild(script);
+        }
+
         function updateTabUI(activePeriod) {
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.period === activePeriod);
@@ -358,8 +389,10 @@
             
             const listEl = document.getElementById('post-list');
             const posts = popularData[activePeriod] || [];
+            const topPosts = posts.slice(0, 10);
             
-            listEl.innerHTML = renderList(posts.slice(0, 10));
+            listEl.innerHTML = renderList(topPosts);
+            injectItemListSchema(topPosts);
         }
 
         function initTabs() {
@@ -373,7 +406,7 @@
         async function loadData() {
             let actualUpdateTime = null;
             try {
-                const cacheBuster = new Date().getTime();
+                const cacheBuster = Date.now();
                 const response = await fetch(`https://red52.kr/popular_posts_api.php?_t=${cacheBuster}`);
                 
                 if(response.ok) {
@@ -388,7 +421,6 @@
             }
             
             document.getElementById('update-time').textContent = formatUpdateTime(actualUpdateTime);
-            
             updateTabUI('daily');
         }
 
