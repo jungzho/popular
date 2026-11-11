@@ -2,14 +2,17 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <link rel="preconnect" href="https://red52.kr">
+    <link rel="preconnect" href="https://red52.kr" crossorigin>
     <link rel="dns-prefetch" href="https://red52.kr">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#0a0a0a">
+    
     <link rel="icon" href="https://popular.red52.kr/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="https://popular.red52.kr/favicon.ico">
+    
     <meta name="description" content="인기 BJ 야동과 최신 AV 순위를 매일 업데이트. 한국 야동을 HD 고화질로 무료 스트리밍 및 다운로드 감상하세요.">
     <meta name="keywords" content="야동, BJ, AV, 한국, 고화질, 무료">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://popular.red52.kr/">
 
     <meta property="og:type" content="website">
@@ -18,6 +21,7 @@
     <meta property="og:url" content="https://popular.red52.kr/">
     <meta property="og:site_name" content="빨간오이">
     <meta property="og:image" content="https://red52.kr/files/attach/site_image/site_image.1714131061.png"> 
+    <meta property="og:image:alt" content="빨간오이 인기 BJ 야동 로고">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="인기 BJ 야동 | Korean BJ Hot Video">
@@ -67,6 +71,7 @@
             min-height: 100vh;
             padding: 15px;
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
         .wrapper {
@@ -95,7 +100,6 @@
             font-size: 1.0rem !important;
             font-weight: 600 !important;
             color: #fff !important;
-            font-family: inherit !important;
             display: flex !important;
             align-items: center !important;
             gap: 5px !important;
@@ -124,13 +128,14 @@
             cursor: pointer;
             transition: all 0.2s ease-in-out;
             outline: none;
+            font-family: inherit;
         }
 
         .tab-btn:last-child {
             border-right: none;
         }
 
-        .tab-btn:hover {
+        .tab-btn:hover, .tab-btn:focus-visible {
             color: #fff;
             background: var(--surface-hover);
         }
@@ -146,9 +151,10 @@
             height: 32px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 5px;
+            margin-right: 10px;
             background-color: var(--surface-hover);
             flex-shrink: 0;
+            border: 1px solid var(--line-color);
         }
 
         .post-list {
@@ -165,24 +171,25 @@
             padding: 15px 10px;
             border-bottom: 1px solid var(--line-color);
             transition: background 0.2s;
+            content-visibility: auto; /* 렌더링 최적화 */
         }
 
         .post-list li:last-child { 
             border-bottom: none; 
         }
 
-        .post-list li:hover {
+        .post-list li:hover, .post-list li:focus-within {
             background: var(--surface-hover);
         }
 
         .rank {
             font-weight: 600;
-            width: 20px; 
+            width: 24px; 
             flex-shrink: 0; 
             color: var(--text-muted);
             font-size: 1.0rem;
             text-align: center;
-            margin-right: 5px;
+            margin-right: 8px;
             line-height: 1.5;
         }
 
@@ -216,10 +223,10 @@
         }
 
         .post-link:visited {
-            color: #555;
+            color: #888;
         }
 
-        .post-link:hover { 
+        .post-link:hover, .post-link:focus-visible { 
             color: #fff;
         }
 
@@ -249,20 +256,20 @@
         <section class="dashboard-container">
             <header class="header">
                 <h1>🔥 인기 BJ 야동</h1>
-                <span class="update-time" id="update-time">업데이트 대기 중</span>
+                <span class="update-time" id="update-time" aria-live="polite">업데이트 대기 중</span>
             </header>
-            <nav class="tabs">
-                <button class="tab-btn active" data-period="daily">일간</button>
-                <button class="tab-btn" data-period="weekly">주간</button>
-                <button class="tab-btn" data-period="monthly">월간</button>
+            <nav class="tabs" aria-label="기간별 인기 게시물 탭">
+                <button class="tab-btn active" data-period="daily" aria-pressed="true">일간</button>
+                <button class="tab-btn" data-period="weekly" aria-pressed="false">주간</button>
+                <button class="tab-btn" data-period="monthly" aria-pressed="false">월간</button>
             </nav>
-            <ul class="post-list" id="post-list">
-                <li class="status-msg">데이터 수신 중</li>
+            <ul class="post-list" id="post-list" aria-live="polite">
+                <li class="status-msg">데이터 수신 중...</li>
             </ul>
             <noscript>
-                <ul>
-                    <li><a href="https://red52.kr/eunkkol">은꼴 짤방 바로가기</a></li>
-                    <li><a href="https://red52.kr/nsfw">성인 야짤 바로가기</a></li>
+                <ul style="padding: 20px; text-align: center; list-style: none;">
+                    <li><a href="https://red52.kr/eunkkol" style="color:#eee;">은꼴 짤방 바로가기</a></li>
+                    <li><a href="https://red52.kr/nsfw" style="color:#eee; margin-top:10px; display:block;">성인 야짤 바로가기</a></li>
                 </ul>
             </noscript>
         </section>
@@ -275,41 +282,10 @@
 
         const mockData = {
             daily: [
-                { title: "오늘자 레전드 영상 풀버전", comment_count: "42", document_srl: "1001", mid: "video" },
-                { title: "실시간 반응 폭발한 사건 요약", comment_count: "38", document_srl: "1002", mid: "board" },
-                { title: "새로운 비제이 데뷔 방송 하이라이트", comment_count: "25", document_srl: "1003", mid: "video" },
-                { title: "갑자기 분위기 싸해진 합방", comment_count: "15", document_srl: "1004", mid: "board" },
-                { title: "인방갤 실검 1위 달성", comment_count: "9", document_srl: "1005", mid: "video" },
-                { title: "퇴근길 소통 방송", comment_count: "8", document_srl: "1006", mid: "board" },
-                { title: "어제자 핫클립 모음", comment_count: "7", document_srl: "1007", mid: "video" },
-                { title: "이슈 총정리", comment_count: "5", document_srl: "1008", mid: "board" },
-                { title: "요즘 유행하는 챌린지", comment_count: "4", document_srl: "1009", mid: "video" },
-                { title: "시청자 참여 컨텐츠 결과", comment_count: "2", document_srl: "1010", mid: "board" }
+                { title: "데이터 로드 실패 - 기본 데이터", comment_count: "0", document_srl: "", mid: "" }
             ],
-            weekly: [
-                { title: "이번 주 최고의 직캠 모음.zip", comment_count: "156", document_srl: "2001", mid: "video" },
-                { title: "주간 인기투표 1위 달성 기념", comment_count: "120", document_srl: "2002", mid: "board" },
-                { title: "레전드 게스트 초대석 다시보기", comment_count: "89", document_srl: "2003", mid: "video" },
-                { title: "팬미팅 현장 스케치 및 비하인드", comment_count: "77", document_srl: "2004", mid: "board" },
-                { title: "방송사고 날 뻔한 아찔한 순간", comment_count: "65", document_srl: "2005", mid: "board" },
-                { title: "주간 핫이슈 몰아보기", comment_count: "50", document_srl: "2006", mid: "video" },
-                { title: "신규 비제이 랭킹 진입", comment_count: "42", document_srl: "2007", mid: "board" },
-                { title: "이번 주 명장면 TOP 5", comment_count: "35", document_srl: "2008", mid: "video" },
-                { title: "합방 후기 및 썰 풀이", comment_count: "30", document_srl: "2009", mid: "board" },
-                { title: "다음 주 방송 일정 공지", comment_count: "21", document_srl: "2010", mid: "board" }
-            ],
-            monthly: [
-                { title: "올해의 대상 수상자 발표 및 소감", comment_count: "450", document_srl: "3001", mid: "board" },
-                { title: "역대급 리액션 모음 (조회수 100만)", comment_count: "320", document_srl: "3002", mid: "video" },
-                { title: "월간 베스트 비제이 랭킹", comment_count: "280", document_srl: "3003", mid: "board" },
-                { title: "구독자 100만 달성 기념 특별방송", comment_count: "210", document_srl: "3004", mid: "video" },
-                { title: "최고의 케미를 보여준 합방 1위", comment_count: "195", document_srl: "3005", mid: "video" },
-                { title: "이달의 신인상 후보", comment_count: "150", document_srl: "3006", mid: "board" },
-                { title: "시청자가 뽑은 최고의 순간", comment_count: "120", document_srl: "3007", mid: "video" },
-                { title: "야외 방송 레전드 에피소드", comment_count: "105", document_srl: "3008", mid: "video" },
-                { title: "팬카페 정모 후기 모음", comment_count: "88", document_srl: "3009", mid: "board" },
-                { title: "월간 종합 결산 및 Q&A", comment_count: "70", document_srl: "3010", mid: "board" }
-            ]
+            weekly: [],
+            monthly: []
         };
 
         function formatUpdateTime(serverTimestamp) {
@@ -343,8 +319,7 @@
                 return '<li class="status-msg error-msg">조건에 맞는 데이터가 없습니다.</li>';
             }
             
-            // 기본 썸네일 이미지 (첨부 이미지가 없을 경우 대체)
-            const fallbackImage = 'https://red52.kr/files/attach/site_image/site_image.1714131061.png';
+            const fallbackImage = 'https://red52.kr/files/attach/xeicon/mobicon.png';
             
             return posts.map((post, index) => {
                 const rankClass = index < 3 ? 'rank rank-top' : 'rank';
@@ -354,14 +329,14 @@
                 const commentCount = parseInt(post.comment_count) || 0;
                 const commentHtml = commentCount > 0 ? `<span class="comment-count">[${commentCount}]</span>` : '';
                 
-                // 썸네일 URL 생성
                 const thumbUrl = post.thumbnail ? `${SITE_URL}/${post.thumbnail}` : fallbackImage;
 
+                // img 태그에 width, height, loading, decoding, 동적 alt 추가
                 return `
                 <li>
-                    <span class="${rankClass}">${index + 1}</span>
+                    <span class="${rankClass}" aria-label="${index + 1}위">${index + 1}</span>
                     <a href="${url}" class="post-link" target="_blank" rel="noopener noreferrer" title="${safeTitle}">
-                        <img src="${thumbUrl}" class="post-thumbnail" alt="thumbnail" onerror="this.src='${fallbackImage}'">
+                        <img src="${thumbUrl}" class="post-thumbnail" alt="${safeTitle} 썸네일" width="32" height="32" loading="lazy" decoding="async" onerror="this.src='${fallbackImage}'">
                         <span class="post-title">${safeTitle}</span>${commentHtml}
                     </a>
                 </li>
@@ -402,7 +377,9 @@
 
         function updateTabUI(activePeriod) {
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.period === activePeriod);
+                const isActive = btn.dataset.period === activePeriod;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive); // 접근성 상태 업데이트
             });
             
             const listEl = document.getElementById('post-list');
@@ -425,7 +402,10 @@
             let actualUpdateTime = null;
             try {
                 const cacheBuster = Date.now();
-                const response = await fetch(`https://red52.kr/popular_posts_api.php?_t=${cacheBuster}`);
+                // fetch 우선순위를 높여 데이터를 가장 먼저 가져오게 지시 (우선순위 힌트 API)
+                const response = await fetch(`https://red52.kr/popular_posts_api.php?_t=${cacheBuster}`, {
+                    priority: 'high'
+                });
                 
                 if(response.ok) {
                     actualUpdateTime = response.headers.get('X-Update-Time');
