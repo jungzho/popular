@@ -141,6 +141,17 @@
             box-shadow: inset 0 2px 0 var(--accent-color);
         }
 
+        .post-thumbnail {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+            background-color: var(--surface-hover);
+            flex-shrink: 0;
+            border: 1px solid var(--line-color);
+        }
+
         .post-list {
             list-style: none;
             padding: 0;
@@ -333,6 +344,9 @@
                 return '<li class="status-msg error-msg">조건에 맞는 데이터가 없습니다.</li>';
             }
             
+            // 기본 썸네일 이미지 (첨부 이미지가 없을 경우 대체)
+            const fallbackImage = 'https://red52.kr/files/attach/site_image/site_image.1714131061.png';
+            
             return posts.map((post, index) => {
                 const rankClass = index < 3 ? 'rank rank-top' : 'rank';
                 const midPath = post.mid ? `/${post.mid}` : ''; 
@@ -340,11 +354,15 @@
                 const safeTitle = (post.title || '제목 없음').trim(); 
                 const commentCount = parseInt(post.comment_count) || 0;
                 const commentHtml = commentCount > 0 ? `<span class="comment-count">[${commentCount}]</span>` : '';
+                
+                // 썸네일 URL 생성
+                const thumbUrl = post.thumbnail ? `${SITE_URL}/${post.thumbnail}` : fallbackImage;
 
                 return `
                 <li>
                     <span class="${rankClass}">${index + 1}</span>
                     <a href="${url}" class="post-link" target="_blank" rel="noopener noreferrer" title="${safeTitle}">
+                        <img src="${thumbUrl}" class="post-thumbnail" alt="thumbnail" onerror="this.src='${fallbackImage}'">
                         <span class="post-title">${safeTitle}</span>${commentHtml}
                     </a>
                 </li>
